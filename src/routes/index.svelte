@@ -1,46 +1,63 @@
-<style>
-	h1, figure, p {
-		text-align: center;
-		margin: 0 auto;
-	}
+<script>
+  import { onMount } from "svelte";
 
-	h1 {
-		font-size: 2.8em;
-		text-transform: uppercase;
-		font-weight: 700;
-		margin: 0 0 0.5em 0;
-	}
+  const getCryptos = async () => {
+    const response = await fetch(
+      "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
+    );
+    const cryptos = await response.json();
 
-	figure {
-		margin: 0 0 1em 0;
-	}
+    if (response.ok) {
+      return cryptos;
+    } else {
+      throw new Error(cryptos);
+    }
+  };
 
-	img {
-		width: 100%;
-		max-width: 400px;
-		margin: 0 0 1em 0;
-	}
-
-	p {
-		margin: 1em auto;
-	}
-
-	@media (min-width: 480px) {
-		h1 {
-			font-size: 4em;
-		}
-	}
-</style>
+  let top100Cryptos = getCryptos();
+</script>
 
 <svelte:head>
-	<title>Sapper project template</title>
+  <title>Fiscus</title>
 </svelte:head>
 
-<h1>Great success!</h1>
+<h1>Fiscus</h1>
 
-<figure>
-	<img alt='Borat' src='great-success.png'>
-	<figcaption>HIGH FIVE!</figcaption>
-</figure>
+<div class="coin-search">
+  <h3>Select a coin:</h3>
+  <select>
+    {#await top100Cryptos}
+      <option>...loading</option>
+    {:then cryptos}
+      {#each cryptos as { name }, i}
+        <option>{name}</option>
+      {/each}
+    {:catch error}
+      <p style="color: red">{error.message}</p>
+    {/await}
+  </select>
+</div>
 
-<p><strong>Try editing this file (src/routes/index.svelte) to test live reloading.</strong></p>
+<style>
+  .coin-search {
+    text-align: center;
+  }
+
+  h1 {
+    text-align: center;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 2.8em;
+    text-transform: uppercase;
+    font-weight: 700;
+    margin: 0 0 0.5em 0;
+  }
+
+  @media (min-width: 480px) {
+    h1 {
+      font-size: 4em;
+    }
+  }
+</style>
