@@ -29,7 +29,9 @@
 </button>
 {#if visible}
   <div transition:fade id="description">
-    <p transition:fly={{ y: -200, duration: 350 }}>{innerText}</p>
+    <p transition:fly={{ y: -200, duration: 350 }}>
+      {@html innerText}
+    </p>
   </div>
 {/if}
 

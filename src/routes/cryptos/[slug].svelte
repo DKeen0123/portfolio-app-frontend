@@ -17,14 +17,17 @@
 
 <script>
   import Expandable from "../../components/ui/expandable/index.svelte";
+  import Ticker from "../../components/ui/ticker/index.svelte";
   export let crypto;
   console.log(crypto);
+  const marketData = crypto.market_data;
+  const priceChangePercentage = marketData.price_change_percentage_24h;
 </script>
 
 <svelte:head>
   <title>{crypto.name}</title>
 </svelte:head>
 
-<h1>{crypto.name}</h1>
+<Ticker {crypto} />
 
 <Expandable header="Description" innerText={crypto.description.en} />
