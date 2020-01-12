@@ -1,6 +1,4 @@
 <script>
-  import { onMount } from "svelte";
-
   const getCryptos = async () => {
     const response = await fetch(
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false"
@@ -15,6 +13,13 @@
   };
 
   let top100Cryptos = getCryptos();
+
+  let selectedCrypto = "bitcoin";
+
+  const handleChange = () => {
+    const cryptoDropdown = document.getElementById("cryptoDropdown");
+    selectedCrypto = cryptoDropdown.options[cryptoDropdown.selectedIndex].value;
+  };
 </script>
 
 <svelte:head>
@@ -25,17 +30,20 @@
 
 <div class="coin-search">
   <h3>Select a coin:</h3>
-  <select>
+  <select id="cryptoDropdown" on:change={handleChange}>
     {#await top100Cryptos}
       <option>...loading</option>
     {:then cryptos}
-      {#each cryptos as { name }, i}
-        <option>{name}</option>
+      {(selectedCrypto = cryptos[0].id)}
+      {#each cryptos as { name, id }, i}
+        <option value={id}>{name}</option>
       {/each}
     {:catch error}
       <p style="color: red">{error.message}</p>
     {/await}
   </select>
+
+  <a href={`cryptos/${selectedCrypto}`}>Go</a>
 </div>
 
 <style>
