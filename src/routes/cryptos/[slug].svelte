@@ -16,7 +16,9 @@
 </script>
 
 <script>
+  import Expandable from "../../components/ui/expandable/index.svelte";
   export let crypto;
+  console.log(crypto);
 </script>
 
 <svelte:head>
@@ -24,3 +26,5 @@
 </svelte:head>
 
 <h1>{crypto.name}</h1>
+
+<Expandable header="Description" innerText={crypto.description.en} />
