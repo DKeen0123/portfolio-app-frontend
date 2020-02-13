@@ -39,6 +39,7 @@
   #description {
     background-color: #f1f1f1;
     padding: 16px;
+    color: black;
     overflow: hidden;
     /* margin-top: 2px; */
   }

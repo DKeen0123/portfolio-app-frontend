@@ -13,6 +13,7 @@
 <style>
   :global(body) {
     background-color: black;
+    color: white;
   }
   main {
     position: relative;

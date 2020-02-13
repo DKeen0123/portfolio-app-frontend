@@ -43,7 +43,7 @@
     {/await}
   </select>
 
-  <a href={`cryptos/${selectedCrypto}`}>Go</a>
+  <a rel="prefetch" href={`cryptos/${selectedCrypto}`}>Go</a>
 </div>
 
 <style>
